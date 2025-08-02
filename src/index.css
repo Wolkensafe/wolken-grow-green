@@ -162,15 +162,15 @@
 
   /* Professional animations */
   .fade-in {
-    @apply animate-in fade-in slide-in-from-bottom-4 duration-700;
+    @apply animate-in slide-in-from-bottom-4 duration-700;
   }
 
   .slide-in-left {
-    @apply animate-in slide-in-from-left-8 fade-in duration-700;
+    @apply animate-in slide-in-from-left-8 duration-700;
   }
 
   .slide-in-right {
-    @apply animate-in slide-in-from-right-8 fade-in duration-700;
+    @apply animate-in slide-in-from-right-8 duration-700;
   }
 }
 
