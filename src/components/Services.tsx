@@ -8,6 +8,7 @@ import {
   DollarSign, 
   ArrowRight 
 } from "lucide-react";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
 
 const Services = () => {
   const services = [
@@ -93,9 +94,11 @@ const Services = () => {
             <p className="text-lg mb-8 opacity-90">
               Let's build your success story together with our comprehensive consulting approach.
             </p>
+             <ConsultationDialog>
             <Button variant="hero" size="xl" className="bg-white text-primary hover:bg-gray-100">
               Schedule Free Consultation
             </Button>
+            </ConsultationDialog>
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
     
     // Replace 'YOUR_SPREADSHEET_ID' with your actual Google Sheets ID
-    const spreadsheetId = 'YOUR_SPREADSHEET_ID';
+    const spreadsheetId = '1aJMCw9fF75PqbR2b1qdNVTaRzvwXn6Ij_hRCyqkdQ7M';
     const sheet = SpreadsheetApp.openById(spreadsheetId).getActiveSheet();
     
     // Add headers if the sheet is empty

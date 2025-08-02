@@ -1,6 +1,8 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,11 +41,13 @@ const Navbar = () => {
           </div>
 
           {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button variant="hero" size="sm">
-              Get Started
-            </Button>
-          </div>
+         <div className="hidden md:block">
+  <ConsultationDialog>
+    <Button variant="hero" size="sm">
+      Consult Now
+    </Button>
+  </ConsultationDialog>
+</div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
@@ -72,7 +76,7 @@ const Navbar = () => {
               ))}
               <div className="pt-2">
                 <Button variant="hero" size="sm" className="w-full">
-                  Get Started
+                  Consult Now
                 </Button>
               </div>
             </div>
