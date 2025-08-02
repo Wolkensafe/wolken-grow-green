@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Zap, Target } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
 
 const Hero = () => {
   return (
@@ -25,10 +26,12 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button variant="hero" size="xl" className="group">
-              Book a Free Consultation
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </Button>
+            <ConsultationDialog>
+              <Button variant="hero" size="xl" className="group">
+                Book a Free Consultation
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </ConsultationDialog>
             
             <Button variant="professional" size="xl">
               Explore Services
