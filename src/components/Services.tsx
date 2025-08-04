@@ -6,6 +6,7 @@ import {
   PenTool, 
   Camera, 
   DollarSign, 
+  Shield,
   ArrowRight 
 } from "lucide-react";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
@@ -41,6 +42,12 @@ const Services = () => {
       title: "Financial Services",
       description: "Business planning, tax & compliance consulting, accounting solutions for growth.",
       features: ["Business Planning", "Tax Consulting", "Compliance", "Financial Analysis"]
+    },
+    {
+      icon: Shield,
+      title: "Cyber Security",
+      description: "Comprehensive security solutions to protect your business from digital threats and ensure compliance.",
+      features: ["Security Audits", "Threat Protection", "Compliance Management", "Incident Response"]
     }
   ];
 
@@ -77,7 +84,7 @@ const Services = () => {
                     </li>
                   ))}
                 </ul>
-                <Button variant="professional" className="w-full group">
+                <Button variant="professional" className="w-full group" onClick={() => window.location.href = `/services/${service.title.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`}>
                   Learn More
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
