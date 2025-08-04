@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -5,8 +6,79 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: ""
+  });
+  const { toast } = useToast();
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      const submitData = {
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        phone: formData.phone,
+        service: formData.service,
+        message: formData.message,
+        timestamp: new Date().toISOString(),
+        type: "Contact Form"
+      };
+
+      // Replace this URL with your Google Apps Script Web App URL
+      const GOOGLE_APPS_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+      
+      const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submitData),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message Sent!",
+          description: "We'll get back to you within 24 hours.",
+        });
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          service: "",
+          message: ""
+        });
+      } else {
+        throw new Error("Failed to submit form");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const contactInfo = [
     {
       icon: Mail,
@@ -76,9 +148,11 @@ const Contact = () => {
                 <p className="opacity-90 mb-4">
                   Our team is ready to provide consultation and answer your questions.
                 </p>
-                <Button variant="hero" className="bg-white text-primary hover:bg-gray-100">
-                  Schedule Call Now
-                </Button>
+                <ConsultationDialog>
+                  <Button variant="hero" className="bg-white text-primary hover:bg-gray-100">
+                    Schedule Call Now
+                  </Button>
+                </ConsultationDialog>
               </CardContent>
             </Card>
           </div>
@@ -91,81 +165,100 @@ const Contact = () => {
                   Send Us a Message
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit}>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First Name</Label>
+                      <Input 
+                        id="firstName" 
+                        placeholder="Enter your first name"
+                        className="bg-background border-border"
+                        value={formData.firstName}
+                        onChange={(e) => handleInputChange("firstName", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last Name</Label>
+                      <Input 
+                        id="lastName" 
+                        placeholder="Enter your last name"
+                        className="bg-background border-border"
+                        value={formData.lastName}
+                        onChange={(e) => handleInputChange("lastName", e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        placeholder="Enter your email"
+                        className="bg-background border-border"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone</Label>
+                      <Input 
+                        id="phone" 
+                        placeholder="Enter your phone number"
+                        className="bg-background border-border"
+                        value={formData.phone}
+                        onChange={(e) => handleInputChange("phone", e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input 
-                      id="firstName" 
-                      placeholder="Enter your first name"
-                      className="bg-background border-border"
+                    <Label htmlFor="service">Service Interested In</Label>
+                    <Select value={formData.service} onValueChange={(value) => handleInputChange("service", value)}>
+                      <SelectTrigger className="bg-background border-border">
+                        <SelectValue placeholder="Select a service" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="it-solutions">IT Solutions & Consulting</SelectItem>
+                        <SelectItem value="digital-marketing">Digital Marketing & SEO</SelectItem>
+                        <SelectItem value="content-writing">Content & Copywriting</SelectItem>
+                        <SelectItem value="photography">Product Photography</SelectItem>
+                        <SelectItem value="financial">Financial Services</SelectItem>
+                        <SelectItem value="multiple">Multiple Services</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea 
+                      id="message" 
+                      placeholder="Tell us about your project or requirements..."
+                      className="bg-background border-border min-h-[120px]"
+                      value={formData.message}
+                      onChange={(e) => handleInputChange("message", e.target.value)}
+                      required
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input 
-                      id="lastName" 
-                      placeholder="Enter your last name"
-                      className="bg-background border-border"
-                    />
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button type="submit" variant="primary" size="lg" className="flex-1" disabled={isSubmitting}>
+                      {isSubmitting ? "Sending..." : "Send Message"}
+                    </Button>
+                    <ConsultationDialog>
+                      <Button type="button" variant="professional" size="lg" className="flex-1">
+                        Schedule Call
+                      </Button>
+                    </ConsultationDialog>
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      placeholder="Enter your email"
-                      className="bg-background border-border"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input 
-                      id="phone" 
-                      placeholder="Enter your phone number"
-                      className="bg-background border-border"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="service">Service Interested In</Label>
-                  <Select>
-                    <SelectTrigger className="bg-background border-border">
-                      <SelectValue placeholder="Select a service" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="it-solutions">IT Solutions & Consulting</SelectItem>
-                      <SelectItem value="digital-marketing">Digital Marketing & SEO</SelectItem>
-                      <SelectItem value="content-writing">Content & Copywriting</SelectItem>
-                      <SelectItem value="photography">Product Photography</SelectItem>
-                      <SelectItem value="financial">Financial Services</SelectItem>
-                      <SelectItem value="multiple">Multiple Services</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea 
-                    id="message" 
-                    placeholder="Tell us about your project or requirements..."
-                    className="bg-background border-border min-h-[120px]"
-                  />
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" size="lg" className="flex-1">
-                    Send Message
-                  </Button>
-                  <Button variant="professional" size="lg" className="flex-1">
-                    Schedule Call
-                  </Button>
-                </div>
-              </CardContent>
+                </CardContent>
+              </form>
             </Card>
           </div>
         </div>
