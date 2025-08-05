@@ -96,21 +96,15 @@ export function ConsultationDialog({ children }: ConsultationDialogProps) {
       };
 
       // Replace this URL with your Google Apps Script Web App URL
-      const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/library/d/1N2-f_-mqL8aOpgDBoPWGiIeI8PbyyQ8qguxbN7Yuwt8F4H6OwnIpjdGs/5";
-      
-      console.log("Submitting form data:", formData);
+      const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzqmDy_1InpABVynBpsdYpnZ45Z7C4oe3dtBrA1D472iNJFD60JR8eQWgPWNVZ7bVVb/exec";
       
       const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: "POST",
-        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-      
-      console.log("Response status:", response.status);
-      console.log("Response ok:", response.ok);
 
       if (response.ok) {
         toast({
