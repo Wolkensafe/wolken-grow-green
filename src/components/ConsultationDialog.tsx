@@ -96,7 +96,7 @@ export function ConsultationDialog({ children }: ConsultationDialogProps) {
       };
 
       // Replace this URL with your Google Apps Script Web App URL
-      const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzqmDy_1InpABVynBpsdYpnZ45Z7C4oe3dtBrA1D472iNJFD60JR8eQWgPWNVZ7bVVb/exec";
+      const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7OwC0tbHmpcqN0632ohds6h4qs6Vn-WaJSQSOoPcsOSyiMKlFy1Fq2wGPPrmdUEUZ/exec";
       
       const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: "POST",
