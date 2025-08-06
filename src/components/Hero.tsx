@@ -5,7 +5,7 @@ import { ConsultationDialog } from "@/components/ConsultationDialog";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero pt-16 pb-8 md:pt-20 md:pb-12">
       {/* Background Image Overlay */}
       <div 
         className="absolute inset-0 opacity-20 bg-cover bg-center bg-no-repeat"
@@ -13,27 +13,27 @@ const Hero = () => {
       />
       
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="fade-in">
-          <h1 className="text-4xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 tracking-tight leading-tight">
             Empowering Brands.
             <br />
             <span className="text-accent-green">Securing Growth.</span>
           </h1>
           
-          <p className="text-xl lg:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-2">
             From IT to SEO, Content to Finance—WolkenSafe India is your all-in-one consulting partner for modern business success.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 md:mb-16 px-4">
             <ConsultationDialog>
-              <Button variant="hero" size="xl" className="group">
+              <Button variant="hero" size="xl" className="group w-full sm:w-auto">
                 Book a Free Consultation
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </ConsultationDialog>
             
-            <Button variant="professional" size="xl">
+            <Button variant="professional" size="xl" className="w-full sm:w-auto">
               Explore Services
             </Button>
           </div>
@@ -41,7 +41,7 @@ const Hero = () => {
 
         {/* USP Section */}
         <div className="slide-in-right">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-8 sm:mt-12 md:mt-20 px-2">
             <div className="text-center group">
               <div className="w-16 h-16 bg-accent-green/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                 <Shield className="h-8 w-8 text-accent-green" />
