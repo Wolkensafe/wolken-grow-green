@@ -29,7 +29,7 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/wolkensafe/", label: "LinkedIn" },
     { icon: Twitter, href: "#", label: "Twitter" },
     { icon: Facebook, href: "#", label: "Facebook" }
   ];
@@ -55,15 +55,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-accent-green" />
-                <span className="text-gray-300">hello@wolkensafe.in</span>
+                <span className="text-gray-300">wolkensafe@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-accent-green" />
-                <span className="text-gray-300">+91 98765 43210</span>
+                <span className="text-gray-300">+91 7015173792, +91 8607656463</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-4 w-4 text-accent-green" />
-                <span className="text-gray-300">Mumbai, India</span>
+                <span className="text-gray-300">Gurugram, India</span>
               </div>
             </div>
 
