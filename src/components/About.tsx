@@ -91,21 +91,7 @@ const About = () => {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20 fade-in">
-          {stats.map((stat, index) => (
-            <Card key={index} className="text-center p-6 card-elegant">
-              <CardContent className="p-0">
-                <div className="text-3xl lg:text-4xl font-bold text-accent-green mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-muted-foreground font-medium">
-                  {stat.label}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        
 
         {/* Values */}
         <div className="slide-in-right">
