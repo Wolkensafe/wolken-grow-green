@@ -30,43 +30,40 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
+      // Payload matches the Google Apps Script expected keys
       const submitData = {
-        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         email: formData.email,
         phone: formData.phone,
         service: formData.service,
-        message: formData.message,
-        timestamp: new Date().toISOString(),
-        type: "Contact Form"
+        message: formData.message
       };
 
-      // Replace this URL with your Google Apps Script Web App URL
-      const GOOGLE_APPS_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+      const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymGoiXTsUuGY1CmWtejGyRci3353Swo5kWTyvjaskPtSoGbDXq7W3hlJi9HiQRwxdV/exec";
       
       const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: "POST",
+        mode: "no-cors", // Because GAS may not send full CORS headers for JSON
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(submitData),
       });
 
-      if (response.ok) {
-        toast({
-          title: "Message Sent!",
-          description: "We'll get back to you within 24 hours.",
-        });
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          service: "",
-          message: ""
-        });
-      } else {
-        throw new Error("Failed to submit form");
-      }
+      // Since no-cors won't let us inspect response.ok, just assume success if no error thrown
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you within 24 hours.",
+      });
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        service: "",
+        message: ""
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
       toast({
@@ -83,19 +80,19 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      content: "hello@wolkensafe.in",
+      content: "wolkensafe@gmail.com",
       description: "Send us your queries anytime"
     },
     {
       icon: Phone,
       title: "Call Us",
-      content: "+91 98765 43210",
+      content: "+91 7015173792, +91 8607656463",
       description: "Available Mon-Fri, 9 AM - 6 PM"
     },
     {
       icon: MapPin,
       title: "Visit Us",
-      content: "Mumbai, India",
+      content: "Gurugram, India",
       description: "Schedule an appointment"
     },
     {
