@@ -19,7 +19,12 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 flex items-center space-x-3">
+            <img 
+              src="/lovable-uploads/c37718b4-7d4d-431e-9f1d-ce48085c4696.png" 
+              alt="WolkenSafe Logo" 
+              className="h-8 w-8"
+            />
             <h1 className="text-2xl font-bold text-white">
               Wolken<span className="text-accent-green">Safe</span>
             </h1>
