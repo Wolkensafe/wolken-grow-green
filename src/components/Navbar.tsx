@@ -23,7 +23,7 @@ const Navbar = () => {
             <img 
               src="/lovable-uploads/c37718b4-7d4d-431e-9f1d-ce48085c4696.png" 
               alt="WolkenSafe Logo" 
-              className="h-24 w-24"
+              className="h-72 w-72"
             />
             <h1 className="text-2xl font-bold text-white">
               Wolken<span className="text-accent-green">Safe</span>
