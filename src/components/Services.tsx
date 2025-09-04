@@ -16,8 +16,8 @@ const Services = () => {
     {
       icon: Laptop,
       title: "IT Solutions & Consulting",
-      description: "Infrastructure setup, cloud migration & security, tech audits & automation for modern businesses.",
-      features: ["Cloud Migration", "Security Audits", "System Integration", "Tech Infrastructure"]
+      description: "Website Design & Development, cloud migration & security, tech audits & automation for modern businesses.",
+      features: ["Cloud Website Desgin & Development", "Security Audits", "System Integration", "Tech Infrastructure"]
     },
     {
       icon: Search,
@@ -36,12 +36,6 @@ const Services = () => {
       title: "Product Photography",
       description: "High-quality eCommerce photography, creative direction, editing and optimization.",
       features: ["Product Shoots", "E-commerce Photos", "Creative Direction", "Image Optimization"]
-    },
-    {
-      icon: DollarSign,
-      title: "Financial Services",
-      description: "Business planning, tax & compliance consulting, accounting solutions for growth.",
-      features: ["Business Planning", "Tax Consulting", "Compliance", "Financial Analysis"]
     },
     {
       icon: Shield,
