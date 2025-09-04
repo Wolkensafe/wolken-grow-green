@@ -106,7 +106,7 @@ const Footer = () => {
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
                   <a 
-                    href="#" 
+                    href={link === "Blog" ? "/blog" : "#"} 
                     className="text-gray-400 hover:text-accent-green transition-colors text-sm"
                   >
                     {link}
