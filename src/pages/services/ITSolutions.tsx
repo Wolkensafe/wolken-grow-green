@@ -7,6 +7,12 @@ import itSolutionsHero from "@/assets/it-solutions-hero.jpg";
 const ITSolutions = () => {
   const subServices = [
     {
+      icon: Cog,
+      title: "Website Design & Development",
+      description: "Custom website design and development services that deliver responsive, user-friendly, and high-performing digital experiences.",
+      features: ["React/Angular/Wordpress ", "Professional  Design", "Performance Optimization", "Responsive Layouts"]
+    },
+    {
       icon: Cloud,
       title: "Cloud Migration",
       description: "Seamless transition to cloud platforms with minimal downtime and maximum efficiency.",
