@@ -3,15 +3,19 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const navItems = [
-    { href: "#home", label: "Home" },
-    { href: "#services", label: "Services" },
-    { href: "#about", label: "About" },
-    { href: "#contact", label: "Contact" },
+    { href: "#home", label: "Home", isRoute: false },
+    { href: "#services", label: "Services", isRoute: false },
+    { href: "#about", label: "About", isRoute: false },
+    { href: "#contact", label: "Contact", isRoute: false },
+    { href: "/blog", label: "Blog", isRoute: true },
   ];
 
   return (
@@ -19,7 +23,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center space-x-3">
+          <Link to="/" className="flex-shrink-0 flex items-center space-x-3">
             <img 
               src="/lovable-uploads/f6a5c625-6299-455b-a701-1be4288fdcc8.png" 
               alt="WolkenSafe Cloud Logo" 
@@ -28,19 +32,29 @@ const Navbar = () => {
             <h1 className="text-2xl font-bold text-white">
               Wolken<span className="text-accent-green">Safe</span>
             </h1>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-gray-300 hover:text-accent-green transition-colors duration-200 px-3 py-2 text-sm font-medium"
-                >
-                  {item.label}
-                </a>
+                item.isRoute ? (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className="text-gray-300 hover:text-accent-green transition-colors duration-200 px-3 py-2 text-sm font-medium"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.href}
+                    href={isHomePage ? item.href : `/${item.href}`}
+                    className="text-gray-300 hover:text-accent-green transition-colors duration-200 px-3 py-2 text-sm font-medium"
+                  >
+                    {item.label}
+                  </a>
+                )
               ))}
             </div>
           </div>
@@ -70,14 +84,25 @@ const Navbar = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black/95 rounded-lg mt-2">
               {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-gray-300 hover:text-accent-green block px-3 py-2 text-base font-medium transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </a>
+                item.isRoute ? (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className="text-gray-300 hover:text-accent-green block px-3 py-2 text-base font-medium transition-colors duration-200"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.href}
+                    href={isHomePage ? item.href : `/${item.href}`}
+                    className="text-gray-300 hover:text-accent-green block px-3 py-2 text-base font-medium transition-colors duration-200"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                )
               ))}
               <div className="pt-2">
                 <Button variant="hero" size="sm" className="w-full">
