@@ -15,21 +15,29 @@ interface NewsAPIKeyDialogProps {
 const NewsAPIKeyDialog = ({ open, onOpenChange, onApiKeySave }: NewsAPIKeyDialogProps) => {
   const [apiKey, setApiKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [useDefaultKey, setUseDefaultKey] = useState(false);
+  
+  const defaultApiKey = "93121113310d4718b7bc8a0bdcb52d59";
 
   const handleSave = async () => {
-    if (!apiKey.trim()) return;
+    const keyToUse = useDefaultKey ? defaultApiKey : apiKey.trim();
+    if (!keyToUse) return;
     
     setIsLoading(true);
     try {
       // Test the API key with a simple request
-      const testResponse = await fetch(`https://newsapi.org/v2/top-headlines?country=us&pageSize=1&apiKey=${apiKey}`);
+      const testResponse = await fetch(`https://newsapi.org/v2/top-headlines?country=us&pageSize=1&apiKey=${keyToUse}`);
       const testData = await testResponse.json();
       
       if (testData.status === 'ok') {
-        onApiKeySave(apiKey);
+        onApiKeySave(keyToUse);
         onOpenChange(false);
         setApiKey("");
+        setUseDefaultKey(false);
       } else {
+        if (testData.code === 'corsNotAllowed') {
+          throw new Error('CORS Error: This API key requires server-side requests. Try using it from localhost or upgrade your NewsAPI plan.');
+        }
         throw new Error(testData.message || 'Invalid API key');
       }
     } catch (error) {
@@ -66,6 +74,28 @@ const NewsAPIKeyDialog = ({ open, onOpenChange, onApiKeySave }: NewsAPIKeyDialog
               </a>
             </AlertDescription>
           </Alert>
+
+          {/* Default Key Option */}
+          <Alert className="bg-green-50 border-green-200">
+            <AlertDescription className="text-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <strong>Quick Start:</strong> Use our provided API key to get started immediately
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setUseDefaultKey(true);
+                    handleSave();
+                  }}
+                  disabled={isLoading}
+                >
+                  Use Default Key
+                </Button>
+              </div>
+            </AlertDescription>
+          </Alert>
           
           <div className="space-y-2">
             <Label htmlFor="apikey">API Key</Label>
@@ -85,7 +115,7 @@ const NewsAPIKeyDialog = ({ open, onOpenChange, onApiKeySave }: NewsAPIKeyDialog
             </Button>
             <Button 
               onClick={handleSave} 
-              disabled={!apiKey.trim() || isLoading}
+              disabled={(!apiKey.trim() && !useDefaultKey) || isLoading}
             >
               {isLoading ? "Validating..." : "Save & Connect"}
             </Button>

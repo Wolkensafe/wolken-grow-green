@@ -25,9 +25,11 @@ const useNewsAPI = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to get API key from localStorage
+  // Function to get API key from localStorage or use default
   const getApiKey = () => {
-    return localStorage.getItem('newsapi_key');
+    const storedKey = localStorage.getItem('newsapi_key');
+    // Use provided default API key if no custom key is stored
+    return storedKey || '93121113310d4718b7bc8a0bdcb52d59';
   };
 
   // Function to save API key to localStorage
@@ -66,6 +68,17 @@ const useNewsAPI = () => {
       setLoading(true);
       setError(null);
 
+      // First try with a simple query to test the API key
+      const testResponse = await fetch(`https://newsapi.org/v2/top-headlines?country=us&pageSize=1&apiKey=${apiKey}`);
+      
+      if (!testResponse.ok) {
+        const errorData = await testResponse.json();
+        if (errorData.code === 'corsNotAllowed') {
+          throw new Error('CORS Error: This API key requires server-side requests. NewsAPI Developer plan only works from localhost.');
+        }
+        throw new Error(errorData.message || 'Failed to fetch news');
+      }
+
       // Fetch tech news with specific queries for better targeting
       const queries = [
         'web development',
@@ -77,7 +90,12 @@ const useNewsAPI = () => {
 
       const promises = queries.map(query => 
         fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=en&sortBy=publishedAt&pageSize=5&apiKey=${apiKey}`)
-          .then(response => response.json())
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
       );
 
       const responses = await Promise.all(promises);
@@ -137,6 +155,7 @@ const useNewsAPI = () => {
     error,
     refetch,
     hasApiKey: !!getApiKey(),
+    currentApiKey: getApiKey(),
     saveApiKey: (key: string) => {
       saveApiKey(key);
       fetchTechNews(key);
