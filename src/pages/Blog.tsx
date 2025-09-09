@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, ArrowRight, User, RefreshCw, Settings, ExternalLink } from "lucide-react";
+import { Calendar, Clock, ArrowRight, User, RefreshCw, Settings, ExternalLink, ArrowLeft } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import useNewsAPI from "@/hooks/useNewsAPI";
 import NewsAPIKeyDialog from "@/components/NewsAPIKeyDialog";
+import { Link } from "react-router-dom";
 
 const Blog = () => {
   const { articles, loading, error, refetch, hasApiKey, saveApiKey } = useNewsAPI();
@@ -47,7 +48,17 @@ const Blog = () => {
       
       {/* Hero Section */}
       <section className="bg-gradient-primary py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          {/* Back Navigation */}
+          <Link 
+            to="/" 
+            className="inline-flex items-center text-white/80 hover:text-white transition-colors mb-8 group"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Back to Home
+          </Link>
+          
+          <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Tech <span className="text-accent-green">Insights</span> Blog
           </h1>
@@ -74,6 +85,7 @@ const Blog = () => {
               <Settings className="h-4 w-4" />
               API Settings
             </Button>
+          </div>
           </div>
         </div>
       </section>
