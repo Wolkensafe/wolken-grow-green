@@ -116,7 +116,7 @@ const Blog = () => {
       </section>
 
       {/* Error State */}
-      {error && (
+      {error && !articles.length && (
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
             <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-8">
