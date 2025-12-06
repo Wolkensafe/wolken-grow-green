@@ -2,20 +2,18 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, ArrowRight, User, RefreshCw, Settings, ExternalLink, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, ArrowRight, User, RefreshCw, ExternalLink, ArrowLeft } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import useNewsAPI from "@/hooks/useNewsAPI";
-import NewsAPIKeyDialog from "@/components/NewsAPIKeyDialog";
 import { Link } from "react-router-dom";
 
 const Blog = () => {
-  const { articles, loading, error, refetch, hasApiKey, currentApiKey, saveApiKey } = useNewsAPI();
-  const [showApiDialog, setShowApiDialog] = useState(false);
+  const { articles, loading, error, refetch } = useNewsAPI();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = ["All", "Web Development", "Cloud Computing", "Cybersecurity", "DevOps", "AI & ML", "Technology"];
+  const categories = ["All", "AI & ML", "Technology"];
   
   // Filter articles by category
   const filteredArticles = selectedCategory === "All" 
@@ -35,14 +33,6 @@ const Blog = () => {
     });
   };
 
-  // Show API dialog immediately if no custom key is set (but allow default key to work)
-  useState(() => {
-    const hasCustomKey = localStorage.getItem('newsapi_key');
-    if (!hasCustomKey && !loading) {
-      setShowApiDialog(true);
-    }
-  });
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -60,38 +50,14 @@ const Blog = () => {
           </Link>
           
           <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Tech <span className="text-accent-green">Insights</span> Blog
-          </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
-            Stay ahead with the latest trending articles in web development, cloud computing, and technology innovation
-          </p>
-          
-          {/* API Key Status */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-6 max-w-2xl mx-auto">
-            <div className="flex items-center justify-between">
-              <div className="text-white/90">
-                <p className="text-sm">API Key Status: <span className="text-accent-green font-medium">{hasApiKey ? 'Connected' : 'Not Set'}</span></p>
-                {currentApiKey && (
-                  <p className="text-xs text-white/70 mt-1">
-                    Current Key: {currentApiKey.substring(0, 8)}...{currentApiKey.substring(-4)}
-                  </p>
-                )}
-              </div>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => setShowApiDialog(true)}
-                className="gap-2 text-white border-white/50 hover:bg-white hover:text-primary"
-              >
-                <Settings className="h-4 w-4" />
-                Configure
-              </Button>
-            </div>
-          </div>
-
-          <div className="flex gap-4 justify-center">
-            {hasApiKey && (
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              AI <span className="text-accent-green">News</span> Global
+            </h1>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
+              Stay ahead with the latest trending articles in artificial intelligence, machine learning, and technology innovation
+            </p>
+            
+            <div className="flex gap-4 justify-center">
               <Button 
                 variant="hero" 
                 onClick={refetch}
@@ -101,16 +67,7 @@ const Blog = () => {
                 <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
                 Refresh News
               </Button>
-            )}
-            <Button 
-              variant="outline" 
-              onClick={() => setShowApiDialog(true)}
-              className="gap-2 text-white border-white hover:bg-white hover:text-primary"
-            >
-              <Settings className="h-4 w-4" />
-              API Settings
-            </Button>
-          </div>
+            </div>
           </div>
         </div>
       </section>
@@ -129,26 +86,8 @@ const Blog = () => {
         </section>
       )}
 
-      {/* No API Key State */}
-      {!hasApiKey && !loading && (
-        <section className="py-16">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-            <div className="bg-muted/50 border rounded-lg p-8">
-              <h3 className="text-xl font-semibold mb-4">Connect to News API</h3>
-              <p className="text-muted-foreground mb-6">
-                To view the latest tech articles, you need to configure your News API key.
-              </p>
-              <Button onClick={() => setShowApiDialog(true)} className="gap-2">
-                <Settings className="h-4 w-4" />
-                Configure API Key
-              </Button>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Featured Posts */}
-      {hasApiKey && !error && (
+      {!error && (
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-foreground mb-8">Featured Articles</h2>
@@ -229,7 +168,7 @@ const Blog = () => {
       )}
 
       {/* Category Filter */}
-      {hasApiKey && !error && (
+      {!error && (
         <section className="py-8 bg-muted/30">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex flex-wrap gap-4 justify-center">
@@ -249,7 +188,7 @@ const Blog = () => {
       )}
 
       {/* Regular Posts */}
-      {hasApiKey && !error && (
+      {!error && (
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-foreground mb-8">Latest Articles</h2>
@@ -339,7 +278,7 @@ const Blog = () => {
             Never Miss an Update
           </h2>
           <p className="text-white/90 mb-8">
-            Subscribe to our newsletter and get the latest tech insights delivered to your inbox
+            Subscribe to our newsletter and get the latest AI insights delivered to your inbox
           </p>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input
@@ -355,13 +294,6 @@ const Blog = () => {
       </section>
 
       <Footer />
-      
-      {/* API Key Dialog */}
-      <NewsAPIKeyDialog 
-        open={showApiDialog}
-        onOpenChange={setShowApiDialog}
-        onApiKeySave={saveApiKey}
-      />
     </div>
   );
 };
